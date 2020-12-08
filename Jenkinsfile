@@ -4,9 +4,10 @@ pipeline {
    stages {
       stage('Verify Branch') {
          steps {
-            echo "$GIT_BRANCH"
+            sh(script: "echo $GIT_BRANCH")
          }
       }
+/*      
       stage('Docker Build') {
          steps {
             pwsh(script: 'docker images -a')
@@ -19,6 +20,7 @@ pipeline {
             """)
          }
       }
+
       stage('Start test app') {
          steps {
             pwsh(script: """
@@ -35,6 +37,7 @@ pipeline {
             }
          }
       }
+
       stage('Run Tests') {
          steps {
             pwsh(script: """
@@ -42,6 +45,7 @@ pipeline {
             """)
          }
       }
+
       stage('Stop test app') {
          steps {
             pwsh(script: """
@@ -49,6 +53,7 @@ pipeline {
             """)
          }
       }
+
       stage('Container Scanning') {
          parallel {
             stage('Run Anchore') {
@@ -59,6 +64,7 @@ pipeline {
                   anchore bailOnFail: false, bailOnPluginFail: false, name: 'anchore_images'
                }
             }
+
             stage('Run Trivy') {
                steps {
                   sleep(time: 30, unit: 'SECONDS')
@@ -69,6 +75,7 @@ pipeline {
             }
          }
       }
+
       stage('Deploy to QA') {
          environment {
             ENVIRONMENT = 'qa'
@@ -84,6 +91,7 @@ pipeline {
             )
          }
       }
+
       stage('Approve PROD Deploy') {
          when {
             branch 'master'
@@ -103,6 +111,7 @@ pipeline {
             }
          }
       }
+
       stage('Deploy to PROD') {
          when {
             branch 'master'
@@ -122,4 +131,5 @@ pipeline {
          }
       }
    }
+*/
 }
